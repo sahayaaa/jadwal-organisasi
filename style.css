@@ -1,0 +1,276 @@
+/* ============================================================
+   JADWAL AWAK SIKAP — "Papan Jadwal" (split-flap board) theme
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    /* Board accents */
+    --p: #ffb703;      /* amber — primary / active flap */
+    --p-dim: #7a5c17;
+    --s: #06d6a0;       /* teal — FREE flap */
+    --d: #ef476f;       /* coral — BUSY flap */
+
+    /* Light mode surfaces */
+    --bg: #eef0f4;
+    --card-bg: #ffffff;
+    --board-bg: #10131f;
+    --text-main: #12141c;
+    --text-sub: #676c7a;
+    --border: #dfe2ea;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Inter', sans-serif;
+}
+
+[data-theme="dark"] {
+    --bg: #0b0d16;
+    --card-bg: #161a28;
+    --board-bg: #05060c;
+    --text-main: #eef0f4;
+    --text-sub: #9aa0b4;
+    --border: #262b3d;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text-main);
+    padding: 24px;
+    margin: 0;
+    transition: background 0.3s ease, color 0.3s ease;
+    background-image:
+        radial-gradient(circle at 15% 0%, rgba(255,183,3,0.06), transparent 40%),
+        radial-gradient(circle at 90% 10%, rgba(6,214,160,0.05), transparent 35%);
+}
+
+.container { max-width: 1100px; margin: auto; }
+
+/* ---------------- HEADER: departure-board strip ---------------- */
+
+.header {
+    background: var(--board-bg);
+    color: #f4f5f7;
+    padding: 22px 24px;
+    border-radius: 14px;
+    margin-bottom: 22px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.header::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: repeating-linear-gradient(
+        90deg,
+        var(--p) 0 24px,
+        var(--s) 24px 48px,
+        var(--d) 48px 72px
+    );
+    opacity: 0.9;
+}
+
+.header .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.68em;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--p);
+    margin: 0 0 6px 0;
+    display: block;
+}
+
+.header h1 {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 1.5em;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: #f4f5f7;
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.theme-btn {
+    padding: 9px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.06);
+    color: #f4f5f7;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: var(--sans);
+    font-size: 0.85em;
+    transition: 0.2s;
+}
+.theme-btn:hover { border-color: var(--p); color: var(--p); }
+
+.counter {
+    display: inline-block;
+    margin-top: 14px;
+    background: rgba(255,183,3,0.12);
+    color: var(--p);
+    border: 1px solid rgba(255,183,3,0.35);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-family: var(--mono);
+}
+
+/* ---------------- CONTROLS ---------------- */
+
+.controls {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+}
+
+.search {
+    width: 100%;
+    padding: 13px 14px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    background: var(--bg);
+    color: var(--text-main);
+    font-family: var(--sans);
+    font-size: 0.95em;
+    transition: border-color 0.2s;
+}
+.search:focus {
+    outline: none;
+    border-color: var(--p);
+}
+
+.days {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.day-btn {
+    padding: 11px 20px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    font-family: var(--mono);
+    font-size: 0.85em;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: var(--bg);
+    color: var(--text-sub);
+    transition: 0.2s;
+}
+.day-btn:hover { border-color: var(--p); color: var(--p); }
+
+.day-btn.active {
+    background: var(--board-bg);
+    color: var(--p);
+    border-color: var(--board-bg);
+}
+
+/* ---------------- GRID / FLIP CARDS ---------------- */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+    perspective: 1200px;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 16px 18px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    border-left: 4px solid #cbd5e1;
+    transform-origin: top center;
+    animation: flapIn 0.45s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+
+@keyframes flapIn {
+    0% { transform: rotateX(-90deg); opacity: 0; }
+    60% { transform: rotateX(8deg); }
+    100% { transform: rotateX(0deg); opacity: 1; }
+}
+
+.card.is-free { border-left-color: var(--s); }
+.card.is-busy { border-left-color: var(--d); }
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 0.68em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 3px 9px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+}
+.status-pill.free { color: var(--s); background: rgba(6,214,160,0.1); }
+.status-pill.busy { color: var(--d); background: rgba(239,71,111,0.1); }
+
+.card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.02em;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.time-tag {
+    display: inline-block;
+    background: rgba(239, 71, 111, 0.08);
+    color: var(--d);
+    font-family: var(--mono);
+    font-size: 0.72em;
+    padding: 4px 8px;
+    border-radius: 5px;
+    margin: 2px 3px 2px 0;
+    font-weight: 700;
+    border: 1px solid rgba(239, 71, 111, 0.3);
+}
+
+.free-text {
+    color: var(--s);
+    font-weight: 600;
+    font-size: 0.88em;
+    font-family: var(--sans);
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+
+@media (max-width: 600px) {
+    body { padding: 12px; }
+
+    .grid { gap: 10px; }
+
+    .day-btn {
+        flex: 1 1 30%;
+        padding: 12px 5px;
+        font-size: 0.78em;
+    }
+
+    .header h1 { font-size: 1.15em; }
+    .header { padding: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card { animation: none; }
+}
