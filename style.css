@@ -179,9 +179,10 @@ body {
 .day-btn:hover { border-color: var(--p); color: var(--p); }
 
 .day-btn.active {
-    background: var(--board-bg);
+    background: rgba(255,183,3,0.16);
     color: var(--p);
-    border-color: var(--board-bg);
+    border-color: var(--p);
+    box-shadow: 0 0 0 1px var(--p) inset, 0 0 12px rgba(255,183,3,0.3);
 }
 
 /* ---------------- GRID / FLIP CARDS ---------------- */

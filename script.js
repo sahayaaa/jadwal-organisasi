@@ -5,11 +5,13 @@ function toggleTheme() {
     const newTheme = isDark ? 'light' : 'dark';
     body.setAttribute('data-theme', newTheme);
     document.getElementById('themeToggle').innerText = isDark ? '🌙 Mode Malam' : '☀️ Mode Terang';
-    localStorage.setItem('theme', newTheme);
+    try { localStorage.setItem('theme', newTheme); } catch (e) {}
 }
 
 // Load tema tersimpan (default: dark)
-if (localStorage.getItem('theme') !== 'light') {
+let savedTheme = null;
+try { savedTheme = localStorage.getItem('theme'); } catch (e) {}
+if (savedTheme !== 'light') {
     document.documentElement.setAttribute('data-theme', 'dark');
 }
 
@@ -63,7 +65,7 @@ let currentDay = 'Senin';
 
 function setDay(day) {
     currentDay = day;
-    document.querySelectorAll('.day-btn').forEach(b => b.classList.toggle('active', b.innerText === day));
+    document.querySelectorAll('.day-btn').forEach(b => b.classList.toggle('active', b.textContent.trim() === day));
     render();
 }
 
